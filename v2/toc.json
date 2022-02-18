@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Getting Started",
+    "pages": [
+      "introduction",
+      "requirements",
+      "changelog",
+      "installation-and-setup",
+      "lumen",
+      "questions-and-issues"
+    ]
+  },
+  {
+    "title": "Basic Usage",
+    "pages": [
+      "configuration",
+      "creating-a-module",
+      "custom-namespaces",
+      "helpers"
+    ]
+  },
+  {
+    "title": "Advanced Tools",
+    "pages": [
+      "artisan-commands",
+      "facade-methods",
+      "module-console-commands",
+      "module-methods",
+      "module-resources",
+      "publishing-modules",
+      "registering-module-events"
+    ]
+  }
+]
