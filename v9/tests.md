@@ -1,4 +1,6 @@
-# Tests
+---
+title: Tests
+---
 
 `phpunit.xml` is the configuration file for phpunit by default this file is configured to run tests only in the `/tests/Feature` and `/tests/Unit`
 

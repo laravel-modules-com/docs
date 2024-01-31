@@ -1,5 +1,7 @@
 # Module Console Commands
 
+> Module names should not be typed in UPPERCASE but CamelCase. ie instead of SERIALCODE type SerialCode
+
 Your module may contain console commands. You can generate these commands manually, or with the following helper:
 
 ```bash

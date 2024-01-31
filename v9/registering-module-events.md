@@ -1,4 +1,6 @@
-# Registering Module Events
+---
+title: Registering Module Events
+---
 
 Your module may contain events and event listeners. You can create these classes manually, or with the following helpers:
 

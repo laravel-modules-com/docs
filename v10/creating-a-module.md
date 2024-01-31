@@ -58,35 +58,36 @@ Because we are autoloading the modules using [psr-4](http://www.php-fig.org/psr/
 
 ## Folder structure
 
+
 ```
 Modules/
   ├── Blog/
-      ├── Config/
-      ├── Console/
-      ├── Database/
+      ├──app
+          ├── Http/
+          ├── Models/
+              ├── Controllers/
+              ├── Middleware/
+              ├── Requests/
+          ├── Providers/
+              ├── BlogServiceProvider.php
+              ├── RouteServiceProvider.php
+     ├── config/
+     ├── database/
           ├── factories/
-          ├── Migrations/
-          ├── Seeders/
-      ├── Entities/
-      ├── Http/
-          ├── Controllers/
-          ├── Middleware/
-          ├── Requests/
-      ├── Providers/
-          ├── PostsServiceProvider.php
-          ├── RouteServiceProvider.php
-      ├── Resources/
+          ├── migrations/
+          ├── seeders/
+      ├── lang
+      ├── resources/
           ├── assets/
-          ├── lang/
           ├── views/
-      ├── Routes/
+      ├── routes/
           ├── api.php
           ├── web.php
-      ├── Tests/
+      ├── tests/
       ├── composer.json
       ├── module.json
       ├── package.json
-      ├── webpack.mix.js
+      ├── vite.config.js
 ```
 
 ## Composer.json

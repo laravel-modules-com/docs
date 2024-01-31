@@ -1,4 +1,6 @@
-# Compiling Assets (Laravel Mix)
+---
+title: Compiling Assets (Laravel Mix)
+---
 
 ## Installation & Setup
 

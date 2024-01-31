@@ -30,6 +30,13 @@ To publish only the stubs
 php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider" --tag="stubs"
 ```
 
+>From V10.0.3
+To publish only vite-modules-loader.js
+
+```bash
+php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider" --tag="vite"
+```
+
 ## Autoloading
 
 By default the module classes are not loaded automatically. You can autoload your modules using `psr-4`. For example :

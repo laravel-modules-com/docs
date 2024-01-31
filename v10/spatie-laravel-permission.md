@@ -1,4 +1,6 @@
-# Using Spatie permissions package with modules
+---
+title: Using Spatie permissions package with modules
+---
 
 Spatie provide a powerful roles and permissions package for Laravel. it's a great way to manage complete roles each with their own permissions. 
 
@@ -131,7 +133,7 @@ $role             = Role::findOrFail($id);
 $permissionGroups = Permission::orderBy('module')->get()->groupBy('module');
 ```
 
-Then in a view loop over the modules array,
+Then in a view loop over the modules array, 
 
 ```php
 @foreach($permissionGroups as $module => $permissions)
@@ -167,7 +169,7 @@ Putting it all together without any styling:
         @foreach ($permissions as $perm)
             <tr>
                 <td>{{ $perm->name }}</td>
-                <td><input type="checkbox" name="permission[]" value="{{ $perm->id }}" {{ $role->hasPermissionTo($perm->name) ? 'checked' : null }} /></td>
+                <td><input type="checkbox" name="permission[]" value="{{ $perm->id }}" @checked($role->hasPermissionTo($perm->name)) /></td>
             </tr>
         @endforeach
     </table>

@@ -50,6 +50,14 @@ List all available modules.
 php artisan module:list
 ```
 
+### module:show-model
+
+Provides a convenient overview of all the model's attributes and relations:
+
+```bash
+php artisan module:show-model Blog
+```
+
 ### module:migrate
 
 Migrate the given module, or without a module an argument, migrate all modules.
@@ -64,6 +72,14 @@ Rollback the given module, or without an argument, rollback all modules.
 
 ```bash
 php artisan module:migrate-rollback Blog
+```
+
+> From version 10.1
+
+To only back a specific migration use the option `--subpath` 
+
+```bash
+php artisan module:migrate-rollback --subpath="2023_10_17_101427_create_posts_table.php" Blog
 ```
 
 ### module:migrate-refresh
@@ -112,6 +128,14 @@ Publish the translation files for the given module, or without a specified modul
 
 ```bash
 php artisan module:publish-translation Blog
+```
+
+### module:lang
+
+Check missing language keys in the specified module.
+
+```bash
+php artisan module:lang Blog
 ```
 
 ### module:enable
@@ -188,6 +212,10 @@ Optional options:
 
 - `--fillable=field1,field2`: set the fillable fields on the generated model
 - `--migration`, `-m`: create the migration file for the given model
+- `--request`, `-r`: create the request file for the given model
+- `--seed`, `-s`: create the seeder file for the given model
+- `--controller`, `-c`: create the controller file for the given model
+- `-mcrs`: create migration, controller, request and seeder files all together for the given model
 
 ### module:make-provider
 

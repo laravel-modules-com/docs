@@ -1,6 +1,6 @@
 ---
 title: Livewire 
-```
+---
 
 ## Livewire components 
 
