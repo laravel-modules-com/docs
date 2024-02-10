@@ -14,6 +14,7 @@ if (is_dir($langPath)) {
     $this->loadTranslationsFrom(module_path($this->moduleName, 'lang'), $this->moduleNameLower);
     $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'lang'));
 }
+
 ```
 
 use in blade `{{ __(blog::pages.about) }}` will be searched in:
