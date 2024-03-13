@@ -5,18 +5,21 @@ title: Languages
 ## Array translation strings
 
 ```php
- $langPath = base_path('resources/lang/modules/blog');
+$langPath = resource_path('lang/modules/'.$this->moduleNameLower);
 
 if (is_dir($langPath)) {
-    $this->loadTranslationsFrom($langPath, 'blog');
+    $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
+    $this->loadJsonTranslationsFrom($langPath);
 } else {
-    $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'blog');
+    $this->loadTranslationsFrom(module_path($this->moduleName, 'lang'), $this->moduleNameLower);
+    $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'lang'));
 }
+
 ```
 
-use in blade `{{ __(blog::foo) }}` will searched in:
-`/lang/modules/en/foo.php`
-`/Modules/Blog/Resources/lang/en/foo.php`
+use in blade `{{ __(blog::pages.about) }}` will be searched in:
+`/lang/modules/en/pages.php`
+`/Modules/Blog/lang/en/pages.php`
 
 ## JSON translation strings
 
