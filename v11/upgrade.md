@@ -139,31 +139,43 @@ Please change `"Modules\\Blog\\": "app/",` to point to the root of the module:
 Newly generated modules will now have this structure
 
 ```
-Modules/
-  ├── Blog/
-      ├──app
-          ├── Http/
-          ├── Models/
-              ├── Controllers/
-          ├── Providers/
-              ├── BlogServiceProvider.php
-              ├── RouteServiceProvider.php
-     ├── config/
-     ├── database/
-          ├── factories/
-          ├── migrations/
-          ├── seeders/
-      ├── resources/
-          ├── assets/
-          ├── views/
-      ├── routes/
-          ├── api.php
-          ├── web.php
-      ├── tests/
-      ├── composer.json
-      ├── module.json
-      ├── package.json
-      ├── vite.config.js
+Modules
+    └── Blog
+        ├── app
+        │   ├── Http
+        │   │   └── Controllers
+        │   │       └── BlogController.php
+        │   ├── Models
+        │   └── Providers
+        │       ├── BlogServiceProvider.php
+        │       └── RouteServiceProvider.php
+        ├── config
+        │   └── config.php
+        ├── database
+        │   ├── factories
+        │   ├── migrations
+        │   └── seeders
+        │       └── BlogDatabaseSeeder.php
+        ├── resources
+        │   ├── assets
+        │   │   ├── js
+        │   │   │   └── app.js
+        │   │   └── sass
+        │   │       └── app.scss
+        │   └── views
+        │       ├── layouts
+        │       │   └── master.blade.php
+        │       └── index.blade.php
+        ├── routes
+        │   ├── api.php
+        │   └── web.php
+        ├── tests
+        │   ├── Feature
+        │   └── Unit
+        ├── composer.json
+        ├── module.json
+        ├── package.json
+        └── vite.config.js
 ```
 
 This can be changed by editing the generator paths in `config/modules.php`
