@@ -2,6 +2,25 @@
 title: Upgrade
 ---
 
+> Heads up:
+    If you upgrade to v6 from previous version, run the following command: `php artisan module:v6:migrate`
+
+## Upgrading from v8.3.0
+
+If you have an existing config file, and you get an error:
+```bash
+Target class [CommandMakeCommand] does not exist
+```
+
+replace the commands array with:
+
+```php
+ 'commands' => \Nwidart\Modules\Providers\ConsoleServiceProvider::defaultCommands()
+        ->merge([
+            // New commands go here
+        ])->toArray(),
+```
+
 ## Composer Merge Plugin
 
 The first time you upgrade to v11 you will be asked weather to enable merge plugin, presss y to allow. Its now required for merging composer files from modules.
