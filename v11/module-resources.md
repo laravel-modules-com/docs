@@ -17,10 +17,10 @@ Don't forget to change the paths, in the following code snippets a "Blog" module
 
 ```php
 $this->publishes([
-    __DIR__.'/../Config/config.php' => config_path('blog.php'),
+    __DIR__.'/../config/config.php' => config_path('blog.php'),
 ], 'config');
 $this->mergeConfigFrom(
-    __DIR__.'/../Config/config.php', 'blog'
+    __DIR__.'/../config/config.php', 'blog'
 );
 ```
 
@@ -29,7 +29,7 @@ $this->mergeConfigFrom(
 ```php
 $viewPath = base_path('resources/views/modules/blog');
 
-$sourcePath = __DIR__.'/../Resources/views';
+$sourcePath = __DIR__.'/../resources/views';
 
 $this->publishes([
     $sourcePath => $viewPath
@@ -50,12 +50,12 @@ The main part here is the `loadViewsFrom` method call. If you don't want your vi
 if (is_dir($langPath)) {
     $this->loadTranslationsFrom($langPath, 'blog');
 } else {
-    $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'blog');
+    $this->loadTranslationsFrom(__DIR__ .'/../lang', 'blog');
 }
 ```
 use in blade `{{ __(blog::foo) }}` will searched in:<br>
 `/lang/modules/en/foo.php`<br>
-`/Modules/Blog/Resources/lang/en/foo.php`<br>
+`/Modules/Blog/lang/en/foo.php`<br>
 
 
 
@@ -65,6 +65,6 @@ If you want to use laravel factories you will have to add the following in your 
 
 ```php
 $this->app->singleton(Factory::class, function () {
-    return Factory::construct(__DIR__ . '/Database/factories');
+    return Factory::construct(__DIR__ . '/database/factories');
 });
 ```

@@ -52,31 +52,27 @@ or
 php artisan module:make Blog -d
 ```
 
-## Naming convention
-
-Because we are autoloading the modules using [psr-4](http://www.php-fig.org/psr/psr-4/), we strongly recommend using StudlyCase convention.
-
 ## Folder structure
 
+This is the default structure for new modules, you are free to change this structure as needed by editing the generator paths in the `modules.php` config file.
 
 ```
 Modules/
   ├── Blog/
       ├──app
           ├── Http/
-          ├── Models/
               ├── Controllers/
-              ├── Middleware/
-              ├── Requests/
+                  BlogController.php
           ├── Providers/
               ├── BlogServiceProvider.php
               ├── RouteServiceProvider.php
      ├── config/
+          ├──config.php
      ├── database/
           ├── factories/
           ├── migrations/
           ├── seeders/
-      ├── lang
+              ├── BlogDatabaseSeeder.php
       ├── resources/
           ├── assets/
           ├── views/
@@ -118,9 +114,7 @@ This file details the name alias and description / options:
     "providers": [
         "Modules\\Blog\\Providers\\BlogServiceProvider"
     ],
-    "aliases": {},
-    "files": [],
-    "requires": []
+    "files": []
 }
 ```
 

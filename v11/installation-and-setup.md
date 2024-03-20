@@ -39,19 +39,21 @@ php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProv
 
 ## Autoloading
 
-By default the module classes are not loaded automatically. You can autoload your modules using `psr-4`. For example :
+> from v11.0 autoloading `"Modules\\": "modules/",` is no longer required.
+
+By default the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
 
 ```json
-{
-  "autoload": {
-    "psr-4": {
-      "App\\": "app/",
-      "Modules\\": "Modules/",
-      "Database\\Factories\\": "database/factories/",
-      "Database\\Seeders\\": "database/seeders/"
+"extra": {
+    "laravel": {
+        "dont-discover": []
+    },
+    "merge-plugin": {
+        "include": [
+            "Modules/*/composer.json"
+        ]
     }
-  }
-}
+},
 ```
 
 **Tip: don't forget to run `composer dump-autoload` afterwards**

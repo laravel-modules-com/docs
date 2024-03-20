@@ -4,6 +4,9 @@ title: Build your own module generator
 
 The default modules are fine to get started but often you'll have your own structure that you'll use from module to module. It's nice to be able to use your structure as a template for all future modules to be created from.
 
+> There is an external package for generating Laravel Modules from a template
+https://github.com/dcblogdev/laravel-module-generator
+
 There's 2 options here. Edit the stub files or create your own base module and custom artisan command.
 
 Lets explore both options
@@ -196,19 +199,18 @@ Once you have a module you're happy as a starting point, you're ready to convert
 ```
 stubs/
     base-module
-        Config
-        Console
-        Database
-        Http
-        Models
-        Providers
-        Resources
-        Routes
-        Tests
+        app/Http
+        app/Models
+        app/Providers
+        config
+        database
+        resources
+        routes
+        tests
         composer.json
         module.json
         package.json
-        webpack.mix.js
+        vite.config.js
 ```
 
 Every reference to a module would need to be changed when making a new module, for instance you have a module called contacts, it has a model called contact everywhere in the module that uses the model would use Contact:: that would need to be changed to the name of the new module when creating a new module.
@@ -309,47 +311,43 @@ The module will have this structure:
 
 ```
 base-module
-  Config
+  config
     config.php
-  Console
-  Database
-    Factories
-        ModelFactory.php
-    Migrations
-        create_module_table.php
-    Seeders
-        ModelDatabaseSeeder.php
-  Http
+  app/Http
     Controllers
         ModuleController.php
-    Middleware
-    Requests
-  Models
-    Model.php
-  Providers
-    ModuleServiceProvider.php
-    RouteServiceProvider.php
-  Resources
+    app/Models
+        Model.php
+    app/Providers
+        ModuleServiceProvider.php
+        RouteServiceProvider.php
+  database
+    factories
+        ModelFactory.php
+    migrations
+        create_module_table.php
+    seeders
+        ModelDatabaseSeeder.php
+  resources
     assets
         js
             app.js
         sass
-    lang
     views
         create.blade.php
         edit.blade.php
         index.blade.php
-  Routes
+  routes
     api.php
     web.php
-  Tests
+  tests
     Feature
         ModuleTest.php
     Unit
   composer.json
   module.json
   package.json
-  webpack.mix.js
+  vite.config.js
 ```
 
 **Config.php**
@@ -544,7 +542,7 @@ class {Module}ServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
     }
 
     public function register()
@@ -555,10 +553,10 @@ class {Module}ServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+            module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower
         );
     }
 
@@ -566,7 +564,7 @@ class {Module}ServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
 
-        $sourcePath = module_path($this->moduleName, 'Resources/views');
+        $sourcePath = module_path($this->moduleName, 'resources/views');
 
         $this->publishes([
             $sourcePath => $viewPath
@@ -582,7 +580,7 @@ class {Module}ServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadJsonTranslationsFrom($langPath, $this->moduleNameLower);
         } else {
-            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'lang'), $this->moduleNameLower);
         }
     }
 
@@ -616,7 +614,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
-    protected $moduleNamespace = 'Modules\{Module}\Http\Controllers';
+    protected $moduleNamespace = '';
 
     public function boot()
     {
@@ -818,7 +816,14 @@ Ensure you edit the author details here, all future modules will use these detai
     },
     "autoload": {
         "psr-4": {
-            "Modules\\{Module}\\": ""
+            "Modules\\{Module}\\": "app/",
+            "Modules\\{Module}\\Database\\Factories\\": "database/factories/",
+            "Modules\\{Module}\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\{Module}\\Tests\\": "tests/"
         }
     }
 }
@@ -838,9 +843,7 @@ Ensure you edit the author details here, all future modules will use these detai
     "providers": [
         "Modules\\{Module}\\Providers\\{Module}ServiceProvider"
     ],
-    "aliases": {},
-    "files": [],
-    "requires": []
+    "files": []
 }
 ```
 
@@ -848,41 +851,29 @@ Ensure you edit the author details here, all future modules will use these detai
 
 ```php
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
-    },
-    "devDependencies": {
-        "cross-env": "^7.0",
-        "laravel-mix": "^5.0.1",
-        "laravel-mix-merge-manifest": "^0.1.2"
-    }
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "axios": "^1.1.2",
+    "laravel-vite-plugin": "^0.7.5",
+    "sass": "^1.69.5",
+    "postcss": "^8.3.7",
+    "vite": "^4.0.0"
+  }
 }
 ```
 
-**webpack.mix.js**
+**vite.config.js**
 
 ```php
-const dotenvExpand = require('dotenv-expand');
-dotenvExpand(require('dotenv').config({ path: '../../.env'/*, debug: true*/}));
-
-const mix = require('laravel-mix');
-require('laravel-mix-merge-manifest');
-
-mix.setPublicPath('../../public').mergeManifest();
-
-mix.js(__dirname + '/Resources/assets/js/app.js', 'js/{module}.js')
-    .sass( __dirname + '/Resources/assets/sass/app.scss', 'css/{module}.css');
-
-if (mix.inProduction()) {
-    mix.version();
-}
+export const paths = [
+   'Modules/{Module}/resources/assets/sass/app.scss',
+   'Modules/{Module}/resources/assets/js/app.js',
+];
 ```
 
 ### Artisan make:module command
@@ -906,7 +897,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class MakeModule2Command extends Command
+class MakeModuleCommand extends Command
 {
     protected $signature = 'command:name';
     protected $description = 'Command description';
@@ -1089,32 +1080,32 @@ protected function generate()
     $this->copy(base_path('stubs/base-module'), $targetPath);
 
     //replace contents
-    $this->replaceInFile($targetPath.'/Config/config.php');
-    $this->replaceInFile($targetPath.'/Database/Factories/ModelFactory.php');
-    $this->replaceInFile($targetPath.'/Database/Migrations/create_module_table.php');
-    $this->replaceInFile($targetPath.'/Database/Seeders/ModelDatabaseSeeder.php');
-    $this->replaceInFile($targetPath.'/Http/Controllers/ModuleController.php');
-    $this->replaceInFile($targetPath.'/Models/Model.php');
-    $this->replaceInFile($targetPath.'/Providers/ModuleServiceProvider.php');
-    $this->replaceInFile($targetPath.'/Providers/RouteServiceProvider.php');
-    $this->replaceInFile($targetPath.'/Resources/views/create.blade.php');
-    $this->replaceInFile($targetPath.'/Resources/views/edit.blade.php');
-    $this->replaceInFile($targetPath.'/Resources/views/index.blade.php');
-    $this->replaceInFile($targetPath.'/Routes/api.php');
-    $this->replaceInFile($targetPath.'/Routes/web.php');
-    $this->replaceInFile($targetPath.'/Tests/Feature/ModuleTest.php');
+    $this->replaceInFile($targetPath.'/config/config.php');
+    $this->replaceInFile($targetPath.'/database/factories/ModelFactory.php');
+    $this->replaceInFile($targetPath.'/database/migrations/create_module_table.php');
+    $this->replaceInFile($targetPath.'/database/seeders/ModelDatabaseSeeder.php');
+    $this->replaceInFile($targetPath.'/app/Http/Controllers/ModuleController.php');
+    $this->replaceInFile($targetPath.'/app/Models/Model.php');
+    $this->replaceInFile($targetPath.'/app/Providers/ModuleServiceProvider.php');
+    $this->replaceInFile($targetPath.'/app/Providers/RouteServiceProvider.php');
+    $this->replaceInFile($targetPath.'/resources/views/create.blade.php');
+    $this->replaceInFile($targetPath.'/resources/views/edit.blade.php');
+    $this->replaceInFile($targetPath.'/resources/views/index.blade.php');
+    $this->replaceInFile($targetPath.'/routes/api.php');
+    $this->replaceInFile($targetPath.'/routes/web.php');
+    $this->replaceInFile($targetPath.'/tests/Feature/ModuleTest.php');
     $this->replaceInFile($targetPath.'/composer.json');
     $this->replaceInFile($targetPath.'/module.json');
-    $this->replaceInFile($targetPath.'/webpack.mix.js');
+    $this->replaceInFile($targetPath.'/vite.config.js');
 
     //rename
-    $this->rename($targetPath.'/Database/Factories/ModelFactory.php', $targetPath.'/Database/Factories/'.$Model.'Factory.php');
-    $this->rename($targetPath.'/Database/migrations/create_module_table.php', $targetPath.'/Database/migrations/create_'.$module.'_table.php', 'migration');
-    $this->rename($targetPath.'/Database/Seeders/ModelDatabaseSeeder.php', $targetPath.'/Database/Seeders/'.$Module.'DatabaseSeeder.php');
-    $this->rename($targetPath.'/Http/Controllers/ModuleController.php', $targetPath.'/Http/Controllers/'.$Module.'Controller.php');
-    $this->rename($targetPath.'/Models/Model.php', $targetPath.'/Models/'.$Model.'.php');
-    $this->rename($targetPath.'/Providers/ModuleServiceProvider.php', $targetPath.'/Providers/'.$Module.'ServiceProvider.php');
-    $this->rename($targetPath.'/Tests/Feature/ModuleTest.php', $targetPath.'/Tests/Feature/'.$Module.'Test.php');
+    $this->rename($targetPath.'/database/factories/ModelFactory.php', $targetPath.'/database/factories/'.$Model.'Factory.php');
+    $this->rename($targetPath.'/database/migrations/create_module_table.php', $targetPath.'/database/migrations/create_'.$module.'_table.php', 'migration');
+    $this->rename($targetPath.'/database/seeders/ModelDatabaseSeeder.php', $targetPath.'/database/seeders/'.$Module.'DatabaseSeeder.php');
+    $this->rename($targetPath.'/app/Http/Controllers/ModuleController.php', $targetPath.'/app/Http/Controllers/'.$Module.'Controller.php');
+    $this->rename($targetPath.'/app/Models/Model.php', $targetPath.'/Models/'.$Model.'.php');
+    $this->rename($targetPath.'/app/Providers/ModuleServiceProvider.php', $targetPath.'/app/Providers/'.$Module.'ServiceProvider.php');
+    $this->rename($targetPath.'/tests/Feature/ModuleTest.php', $targetPath.'/tests/Feature/'.$Module.'Test.php');
 }
 ```
 
@@ -1177,32 +1168,32 @@ class MakeModuleCommand extends Command
         $this->copy(base_path('stubs/base-module'), $targetPath);
 
         //replace contents
-        $this->replaceInFile($targetPath.'/Config/config.php');
-        $this->replaceInFile($targetPath.'/Database/Factories/ModelFactory.php');
-        $this->replaceInFile($targetPath.'/Database/Migrations/create_module_table.php');
-        $this->replaceInFile($targetPath.'/Database/Seeders/ModelDatabaseSeeder.php');
-        $this->replaceInFile($targetPath.'/Http/Controllers/ModuleController.php');
-        $this->replaceInFile($targetPath.'/Models/Model.php');
-        $this->replaceInFile($targetPath.'/Providers/ModuleServiceProvider.php');
-        $this->replaceInFile($targetPath.'/Providers/RouteServiceProvider.php');
-        $this->replaceInFile($targetPath.'/Resources/views/create.blade.php');
-        $this->replaceInFile($targetPath.'/Resources/views/edit.blade.php');
-        $this->replaceInFile($targetPath.'/Resources/views/index.blade.php');
-        $this->replaceInFile($targetPath.'/Routes/api.php');
-        $this->replaceInFile($targetPath.'/Routes/web.php');
-        $this->replaceInFile($targetPath.'/Tests/Feature/ModuleTest.php');
+        $this->replaceInFile($targetPath.'/config/config.php');
+        $this->replaceInFile($targetPath.'/database/factories/ModelFactory.php');
+        $this->replaceInFile($targetPath.'/database/migrations/create_module_table.php');
+        $this->replaceInFile($targetPath.'/database/seeders/ModelDatabaseSeeder.php');
+        $this->replaceInFile($targetPath.'/app/Http/Controllers/ModuleController.php');
+        $this->replaceInFile($targetPath.'/app/Models/Model.php');
+        $this->replaceInFile($targetPath.'/app/Providers/ModuleServiceProvider.php');
+        $this->replaceInFile($targetPath.'/app/Providers/RouteServiceProvider.php');
+        $this->replaceInFile($targetPath.'/resources/views/create.blade.php');
+        $this->replaceInFile($targetPath.'/resources/views/edit.blade.php');
+        $this->replaceInFile($targetPath.'/resources/views/index.blade.php');
+        $this->replaceInFile($targetPath.'/routes/api.php');
+        $this->replaceInFile($targetPath.'/routes/web.php');
+        $this->replaceInFile($targetPath.'/tests/Feature/ModuleTest.php');
         $this->replaceInFile($targetPath.'/composer.json');
         $this->replaceInFile($targetPath.'/module.json');
-        $this->replaceInFile($targetPath.'/webpack.mix.js');
+        $this->replaceInFile($targetPath.'/vite.config.js');
 
         //rename
-        $this->rename($targetPath.'/Database/Factories/ModelFactory.php', $targetPath.'/Database/Factories/'.$Model.'Factory.php');
-        $this->rename($targetPath.'/Database/migrations/create_module_table.php', $targetPath.'/Database/migrations/create_'.$module.'_table.php', 'migration');
-        $this->rename($targetPath.'/Database/Seeders/ModelDatabaseSeeder.php', $targetPath.'/Database/Seeders/'.$Module.'DatabaseSeeder.php');
-        $this->rename($targetPath.'/Http/Controllers/ModuleController.php', $targetPath.'/Http/Controllers/'.$Module.'Controller.php');
-        $this->rename($targetPath.'/Models/Model.php', $targetPath.'/Models/'.$Model.'.php');
-        $this->rename($targetPath.'/Providers/ModuleServiceProvider.php', $targetPath.'/Providers/'.$Module.'ServiceProvider.php');
-        $this->rename($targetPath.'/Tests/Feature/ModuleTest.php', $targetPath.'/Tests/Feature/'.$Module.'Test.php');
+        $this->rename($targetPath.'/database/factories/ModelFactory.php', $targetPath.'/database/factories/'.$Model.'Factory.php');
+        $this->rename($targetPath.'/database/migrations/create_module_table.php', $targetPath.'/database/migrations/create_'.$module.'_table.php', 'migration');
+        $this->rename($targetPath.'/database/seeders/ModelDatabaseSeeder.php', $targetPath.'/database/seeders/'.$Module.'DatabaseSeeder.php');
+        $this->rename($targetPath.'/app/Http/Controllers/ModuleController.php', $targetPath.'/app/Http/Controllers/'.$Module.'Controller.php');
+        $this->rename($targetPath.'/app/Models/Model.php', $targetPath.'/Models/'.$Model.'.php');
+        $this->rename($targetPath.'/app/Providers/ModuleServiceProvider.php', $targetPath.'/app/Providers/'.$Module.'ServiceProvider.php');
+        $this->rename($targetPath.'/tests/Feature/ModuleTest.php', $targetPath.'/tests/Feature/'.$Module.'Test.php');
     }
 
     protected function rename($path, $target, $type = null)

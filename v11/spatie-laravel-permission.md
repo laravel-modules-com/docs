@@ -36,7 +36,7 @@ At this point the docs recommending migrating the database, we're not ready yet.
 php artisan module:make Roles
 ```
 
-Now move the `create_permission_tables.php` file from `database/migrations` to the new Roles module `Modules/Roles/Database/Migrations`
+Now move the `create_permission_tables.php` file from `database/migrations` to the new Roles module `Modules/Roles/database/migrations`
 
 Open the `create_permission_tables.php` file add a modules enter to the permissions schema:
 

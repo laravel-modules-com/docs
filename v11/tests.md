@@ -8,8 +8,8 @@ In order for your modules to be tested their paths need adding to this file, man
 
 ```php
 <testsuite name="Modules">
-    <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
-    <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
+    <directory suffix="Test.php">./Modules/*/tests/Feature</directory>
+    <directory suffix="Test.php">./Modules/*/tests/Unit</directory>
 </testsuite>
 ```
 
@@ -39,8 +39,8 @@ The file would look like this
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
         <testsuite name="Modules">
-            <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
-            <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
+            <directory suffix="Test.php">./Modules/*/tests/Feature</directory>
+            <directory suffix="Test.php">./Modules/*/tests/Unit</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">

@@ -34,8 +34,6 @@ Modules/
           ├── Http/
           ├── Models/
               ├── Controllers/
-              ├── Middleware/
-              ├── Requests/
           ├── Providers/
               ├── BlogServiceProvider.php
               ├── RouteServiceProvider.php
@@ -44,7 +42,6 @@ Modules/
           ├── factories/
           ├── migrations/
           ├── seeders/
-      ├── lang
       ├── resources/
           ├── assets/
           ├── views/
