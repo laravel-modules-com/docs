@@ -3,7 +3,7 @@ title: Upgrade
 ---
 
 > Heads up:
-    If you upgrade to v6 from previous version, run the following command: `php artisan module:v6:migrate`
+    If you upgrade to v6 from the previous version, run the following command: `php artisan module:v6:migrate`
 
 ## Upgrading from v8.3.0
 
@@ -23,7 +23,7 @@ replace the commands array with:
 
 ## Composer Merge Plugin
 
-The first time you upgrade to v11 you will be asked weather to enable merge plugin, presss y to allow. Its now required for merging composer files from modules.
+The first time you upgrade to v11 you will be asked whether to enable the merge plugin, press y to allow. It's now required for merging composer files from modules.
 
 ```
 Do you trust "wikimedia/composer-merge-plugin" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] 
@@ -33,7 +33,7 @@ Do you trust "wikimedia/composer-merge-plugin" to execute code and wish to enabl
 
 ## Composer update
 
-There is a new command `php artisan module:composer-update` to update all modules composer.json files.
+There is a new command `php artisan module:composer-update` to update all module's composer.json files.
 
 This will update autoloading paths for existing modules.
 
@@ -41,7 +41,7 @@ This will update autoloading paths for existing modules.
 
 Please update your `config/modules.php` file the generator paths have been updated as well as using internal paths for commands.
 
-> Please not the new paths only affect new modules / generated files.
+> Please note the new paths only affect new modules / generated files.
 
 The easiest way is to delete the file and re-publish it:
 
@@ -66,7 +66,7 @@ Please delete the Modules autoloading section:
 },
 ```
 
-By default the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
+By default, the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
 
 ```json
 "extra": {
@@ -98,7 +98,7 @@ Modules composer.json files for newly generated modules will contain:
 }
 ```
 
-This allows all classes to be autoloaded from with a new folder called app without requiring `App` to be in the classes namespaces.
+This allows all classes to be autoloaded from a new folder called app without requiring `App` to be in the classes' namespaces.
 
 ### Existing modules that don't contain an App folder can continue to use their autoloading path:
 
@@ -166,4 +166,4 @@ Modules/
       ├── vite.config.js
 ```
 
-This can be changed by edited the generator paths in `config/modules.php`
+This can be changed by editing the generator paths in `config/modules.php`
