@@ -127,10 +127,16 @@ Get count of all modules.
 Module::count();
 ```
 
-Get module path.
+Get module root path.
 
 ```php
 Module::getPath();
+```
+
+Get the module's `app` path. If the module doesn't have an `app` folder, the result is the same as `getPath` method.
+
+```php
+Module::getAppPath();
 ```
 
 Register the modules.
