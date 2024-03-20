@@ -3,6 +3,7 @@
 - [Requirements](/docs/v11/requirements)
 - [Changelog](/docs/v11/changelog)
 - [Installation and Setup](/docs/v11/installation-and-setup)
+- [Upgrade](/docs/v11/upgrade)
 - [Lumen](/docs/v11/lumen)
 - [Questions and Issues](/docs/v11/questions-and-issues)
 

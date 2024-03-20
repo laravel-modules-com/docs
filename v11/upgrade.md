@@ -1,0 +1,150 @@
+---
+title: Upgrade
+---
+
+## Composer Merge Plugin
+
+The first time you upgrade to v11 you will be asked weather to enable merge plugin, presss y to allow. Its now required for merging composer files from modules.
+
+```
+Do you trust "wikimedia/composer-merge-plugin" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] 
+```
+
+> **Tip: run `composer dump-autoload` after any composer changes**
+
+## Composer update
+
+There is a new command `php artisan module:composer-update` to update all modules composer.json files.
+
+This will update autoloading paths for existing modules.
+
+## Config
+
+Please update your `config/modules.php` file the generator paths have been updated as well as using internal paths for commands.
+
+> Please not the new paths only affect new modules / generated files.
+
+The easiest way is to delete the file and re-publish it:
+
+```bash
+php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider" --tag="config"
+```
+
+## Autoloading
+
+> from v11.0 autoloading `"Modules\\": "modules/",` is no longer required.
+
+Please delete the Modules autoloading section:
+
+```
+"autoload": {
+    "psr-4": {
+        "App\\": "app/",
+        "Modules\\": "modules/", <-- delete this
+        "Database\\Factories\\": "database/factories/",
+        "Database\\Seeders\\": "database/seeders/"
+    }
+},
+```
+
+By default the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
+
+```json
+"extra": {
+    "laravel": {
+        "dont-discover": []
+    },
+    "merge-plugin": {
+        "include": [
+            "Modules/*/composer.json"
+        ]
+    }
+},
+```
+
+Modules composer.json files for newly generated modules will contain:
+
+```
+"autoload": {
+    "psr-4": {
+        "Modules\\Blog\\": "app/",
+        "Modules\\Blog\\Database\\Factories\\": "database/factories/",
+        "Modules\\Blog\\Database\\Seeders\\": "database/seeders/"
+    }
+},
+"autoload-dev": {
+    "psr-4": {
+        "Modules\\Blog\\Tests\\": "tests/"
+    }
+}
+```
+
+This allows all classes to be autoloaded from with a new folder called app without requiring `App` to be in the classes namespaces.
+
+### Existing modules that don't contain an App folder can continue to use their autoloading path:
+
+Autoload all classes to the root of the module.
+
+```
+"autoload": {
+    "psr-4": {
+        "Modules\\Blog\\": ""
+    }
+}
+```
+
+### Existing modules that do contain an App folder will need to adjust the autoloading path:
+
+Autoload all classes to the root of the module.
+
+Please change `"Modules\\Blog\\": "app/",` to point to the root of the module:
+
+```
+"autoload": {
+    "psr-4": {
+        "Modules\\Blog\\": "",
+        "Modules\\Blog\\Database\\Factories\\": "database/factories/",
+        "Modules\\Blog\\Database\\Seeders\\": "database/seeders/"
+    }
+},
+"autoload-dev": {
+    "psr-4": {
+        "Modules\\Blog\\Tests\\": "tests/"
+    }
+}
+```
+
+
+## Module Structure
+
+Newly generated modules will now have this structure
+
+```
+Modules/
+  ├── Blog/
+      ├──app
+          ├── Http/
+          ├── Models/
+              ├── Controllers/
+          ├── Providers/
+              ├── BlogServiceProvider.php
+              ├── RouteServiceProvider.php
+     ├── config/
+     ├── database/
+          ├── factories/
+          ├── migrations/
+          ├── seeders/
+      ├── resources/
+          ├── assets/
+          ├── views/
+      ├── routes/
+          ├── api.php
+          ├── web.php
+      ├── tests/
+      ├── composer.json
+      ├── module.json
+      ├── package.json
+      ├── vite.config.js
+```
+
+This can be changed by edited the generator paths in `config/modules.php`

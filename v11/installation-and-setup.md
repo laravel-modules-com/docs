@@ -10,7 +10,7 @@ To install through Composer, by run the following command:
 composer require nwidart/laravel-modules
 ```
 
-The package will automatically register a service provider and alias.
+The package will automatically register a service provider.
 
 Optionally, publish the package's configuration and publish stubs by running:
 
