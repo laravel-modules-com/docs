@@ -9,29 +9,39 @@ title: Introduction
 Generate your first module using `php artisan module:make Blog`. The following structure will be generated.
 
 ```
-Modules/
-  ├── Blog/
-      ├──app
-          ├── Http/
-          ├── Models/
-              ├── Controllers/
-          ├── Providers/
-              ├── BlogServiceProvider.php
-              ├── RouteServiceProvider.php
-     ├── config/
-     ├── database/
-          ├── factories/
-          ├── migrations/
-          ├── seeders/
-      ├── resources/
-          ├── assets/
-          ├── views/
-      ├── routes/
-          ├── api.php
-          ├── web.php
-      ├── tests/
-      ├── composer.json
-      ├── module.json
-      ├── package.json
-      ├── vite.config.js
+├── app
+│   ├── Http
+│   │   └── Controllers
+│   │       └── BlogController.php
+│   ├── Models
+│   └── Providers
+│       ├── BlogServiceProvider.php
+│       └── RouteServiceProvider.php
+├── config
+│   └── config.php
+├── database
+│   ├── factories
+│   ├── migrations
+│   └── seeders
+│       └── BlogDatabaseSeeder.php
+├── resources
+│   ├── assets
+│   │   ├── js
+│   │   │   └── app.js
+│   │   └── sass
+│   │       └── app.scss
+│   └── views
+│       ├── layouts
+│       │   └── master.blade.php
+│       └── index.blade.php
+├── routes
+│   ├── api.php
+│   └── web.php
+├── tests
+│   ├── Feature
+│   └── Unit
+├── composer.json
+├── module.json
+├── package.json
+└── vite.config.js
 ```
