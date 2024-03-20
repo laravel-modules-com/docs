@@ -340,4 +340,14 @@ Generate the given test class for the specified module.
 php artisan module:make-test EloquentPostRepositoryTest Blog
 ```
 
+> v11.0.1 added: make:view
+
+### module:make-view
+
+Generate the given view for the specified module.
+
+```bash
+php artisan module:make-view index Blog
+```
+
 
