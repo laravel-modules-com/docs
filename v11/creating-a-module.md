@@ -52,6 +52,14 @@ or
 php artisan module:make Blog -d
 ```
 
+> From v11.0.3
+
+Change Author details for the generated module composer.json file:
+
+```bash
+php artisan module:make Blog --author-name=Dave --author-email=dave@dcblog.dev --author-vendor=dcblogdev
+```
+
 ## Folder structure
 
 This is the default structure for new modules, you are free to change this structure as needed by editing the generator paths in the `modules.php` config file.
