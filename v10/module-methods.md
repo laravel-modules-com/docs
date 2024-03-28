@@ -59,7 +59,7 @@ $module->isEnabled();
 Check if disabled:
 
 ```php
-$module->isDisabled);
+$module->isDisabled();
 ```
 
 Check if the status it true or false by passing true or false:
