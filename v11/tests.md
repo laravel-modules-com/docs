@@ -2,9 +2,9 @@
 title: Tests
 ---
 
-`phpunit.xml` is the configuration file for phpunit by default this file is configured to run tests only in the `/tests/Feature` and `/tests/Unit`
+`phpunit.xml` is the configuration file for PHPUnit by default this file is configured to run tests only in the `/tests/Feature` and `/tests/Unit`
 
-In order for your modules to be tested their paths need adding to this file, manually adding entries for each module is not desirable so instead use a wildcard include to include the modules dynamically:
+For your modules to be tested their paths need to be added to this file, manually adding entries for each module is not desirable so instead use a wildcard include to include the modules dynamically:
 
 ```php
 <testsuite name="Modules">
@@ -13,11 +13,27 @@ In order for your modules to be tested their paths need adding to this file, man
 </testsuite>
 ```
 
-Also ensure you've got the database connection set to sqlite and to use an in-memory database:
+Also, ensure you've got the database connection set to `sqlite` and to use an in-memory database:
 
 ```php
 <server name="DB_CONNECTION" value="sqlite"/>
 <server name="DB_DATABASE" value=":memory:"/>
+```
+
+Add modules into code coverage by adding paths to the modules inside an include tag, use exclude to exclude certain folders from being scanned.
+
+```
+<source>
+    <include>
+        <directory suffix=".php">./app</directory>
+        <directory suffix=".php">./Modules</directory>
+    </include>
+    <exclude>
+        <directory suffix=".php">./Modules/*/database</directory>
+        <directory suffix=".php">./Modules/*/resources</directory>
+        <directory suffix=".php">./Modules/*/tests</directory>
+    </exclude>
+</source>
 ```
 
 ## Example phpunit.xml
@@ -27,10 +43,8 @@ The file would look like this
 ```php
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
->
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd" bootstrap="vendor/autoload.php"
+         colors="true" cacheDirectory=".phpunit.cache">
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
@@ -39,25 +53,31 @@ The file would look like this
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
         <testsuite name="Modules">
-            <directory suffix="Test.php">./Modules/*/tests/Feature</directory>
-            <directory suffix="Test.php">./Modules/*/tests/Unit</directory>
+          <directory suffix="Test.php">./Modules/*/Tests/Feature</directory>
+          <directory suffix="Test.php">./Modules/*/Tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
             <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./Modules</directory>
         </include>
-    </coverage>
+        <exclude>
+            <directory suffix=".php">./Modules/*/database</directory>
+            <directory suffix=".php">./Modules/*/resources</directory>
+            <directory suffix=".php">./Modules/*/tests</directory>
+        </exclude>
+    </source>
     <php>
-        <server name="APP_ENV" value="testing"/>
-        <server name="BCRYPT_ROUNDS" value="4"/>
-        <server name="CACHE_DRIVER" value="array"/>
-        <server name="DB_CONNECTION" value="sqlite"/>
-        <server name="DB_DATABASE" value=":memory:"/>
-        <server name="MAIL_MAILER" value="array"/>
-        <server name="QUEUE_CONNECTION" value="sync"/>
-        <server name="SESSION_DRIVER" value="array"/>
-        <server name="TELESCOPE_ENABLED" value="false"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
 </phpunit>
 ```
