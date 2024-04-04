@@ -82,7 +82,7 @@ By default, the module classes are not loaded automatically. You can autoload yo
 
 Modules composer.json files for newly generated modules will contain:
 
-```
+```json
 "autoload": {
     "psr-4": {
         "Modules\\Blog\\": "app/",
@@ -103,7 +103,7 @@ This allows all classes to be autoloaded from a new folder called app without re
 
 Autoload all classes to the root of the module.
 
-```
+```json
 "autoload": {
     "psr-4": {
         "Modules\\Blog\\": ""
@@ -117,7 +117,7 @@ Autoload all classes to the root of the module.
 
 Please change `"Modules\\Blog\\": "app/",` to point to the root of the module:
 
-```
+```json
 "autoload": {
     "psr-4": {
         "Modules\\Blog\\": "",
