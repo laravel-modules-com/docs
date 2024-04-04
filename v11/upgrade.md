@@ -55,15 +55,14 @@ php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProv
 
 Please delete the Modules autoloading section:
 
-```
-"autoload": {
-    "psr-4": {
-        "App\\": "app/",
-        "Modules\\": "modules/", <-- delete this
-        "Database\\Factories\\": "database/factories/",
-        "Database\\Seeders\\": "database/seeders/"
-    }
-},
+```diff
+     "autoload": {
+         "psr-4": {
+             "App\\": "app/",
+-            "Modules\\": "modules/", <-- delete this
+             "Database\\Factories\\": "database/factories/",
+             "Database\\Seeders\\": "database/seeders/"
+         }
 ```
 
 By default, the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
@@ -83,7 +82,7 @@ By default, the module classes are not loaded automatically. You can autoload yo
 
 Modules composer.json files for newly generated modules will contain:
 
-```
+```json
 "autoload": {
     "psr-4": {
         "Modules\\Blog\\": "app/",
@@ -104,7 +103,7 @@ This allows all classes to be autoloaded from a new folder called app without re
 
 Autoload all classes to the root of the module.
 
-```
+```json
 "autoload": {
     "psr-4": {
         "Modules\\Blog\\": ""
@@ -118,7 +117,7 @@ Autoload all classes to the root of the module.
 
 Please change `"Modules\\Blog\\": "app/",` to point to the root of the module:
 
-```
+```json
 "autoload": {
     "psr-4": {
         "Modules\\Blog\\": "",
