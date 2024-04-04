@@ -55,15 +55,14 @@ php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProv
 
 Please delete the Modules autoloading section:
 
-```
-"autoload": {
-    "psr-4": {
-        "App\\": "app/",
-        "Modules\\": "modules/", <-- delete this
-        "Database\\Factories\\": "database/factories/",
-        "Database\\Seeders\\": "database/seeders/"
-    }
-},
+```diff
+     "autoload": {
+         "psr-4": {
+             "App\\": "app/",
+-            "Modules\\": "modules/", <-- delete this
+             "Database\\Factories\\": "database/factories/",
+             "Database\\Seeders\\": "database/seeders/"
+         }
 ```
 
 By default, the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
