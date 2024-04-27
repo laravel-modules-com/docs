@@ -124,7 +124,7 @@ php artisan module:publish-config Blog
 
 ### module:publish-translation
 
-Publish the translation files for the given module, or without a specified module publish all modules migrations.
+Publish the translation files for the given module, or without a specified module publish all modules translation files.
 
 ```bash
 php artisan module:publish-translation Blog
