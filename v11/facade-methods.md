@@ -76,7 +76,7 @@ Get all enabled modules.
 Module::allEnabled();
 ```
 
-Check if mobile is enabled
+Check if module is enabled
 
 ```php
 Module::isEnabled('ModuleName');
@@ -88,7 +88,7 @@ Get all disabled modules.
 Module::allDisabled();
 ```
 
-Check if mobile is disabled
+Check if module is disabled
 
 ```php
 Module::isDisabled('ModuleName');
