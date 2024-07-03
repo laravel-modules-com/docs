@@ -158,7 +158,7 @@ php artisan module:enable moduleName
 Now the module is ready to be migrated and seeded:
 
 ```php
-php atisan module:migrate moduleName
+php artisan module:migrate moduleName
 php artisan module:seed moduleName
 ```
 
