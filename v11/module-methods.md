@@ -26,6 +26,36 @@ Get module name in studlycase.
 $module->getStudlyName();
 ```
 
+Get name in snake case.
+
+```php
+$module->getSnakeName();
+```
+
+Get module description.
+
+```php
+$module->getDescription();
+```
+
+Get module priority.
+
+```php
+$module->getPriority();
+```
+
+Get a specific data from `module.json` file by given the key.
+
+```php
+$module->get('description');
+```
+
+Get a specific data from `composer.json` file by given the key.
+
+```php
+$module->getComposerAttr('name');
+```
+
 Get module path.
 
 ```php
@@ -81,6 +111,12 @@ Delete the specified module.
 
 ```php
 $module->delete();
+```
+
+Set active state for current module.
+
+```php
+$module->setActive(false);
 ```
 
 Get an array of module requirements. Note: these should be aliases of the module.
