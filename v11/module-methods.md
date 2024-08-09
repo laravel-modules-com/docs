@@ -65,7 +65,7 @@ $module->isDisabled();
 Check if the status it true or false by passing true or false:
 
 ```php
-$module->IsStatus(false); //returns true if active false if is not active
+$module->isStatus(false); //returns true if active false if is not active
 ```
 
 You can also do a call in one go:
