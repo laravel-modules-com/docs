@@ -258,9 +258,7 @@ Take special notice of the vendor, if you plan on extracting modules to packages
 
 ## Caching
 
-If you have many modules it's a good idea to cache this information (like the multiple `module.json` files for example).
-
-Modules can be cached, by default caching is off.
+> from v11.1.0 The cache system has been removed the following can be removed from your config.
 
 ```php
 'cache' => [
@@ -270,6 +268,15 @@ Modules can be cached, by default caching is off.
     'lifetime' => 60,
 ],
 ```
+
+Also, from `'file' section the following can be removed:
+
+```php
+'cache-key' => 'activator.installed',
+'cache-lifetime' => 604800,
+```
+
+To cache use `php artisan module` and `php artisan optimize:clear` to clear the cache.
 
 ## Registering custom namespace
 
