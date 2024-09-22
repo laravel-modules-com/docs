@@ -29,8 +29,10 @@ Add modules into code coverage by adding paths to the modules inside an include 
         <directory suffix=".php">./Modules</directory>
     </include>
     <exclude>
+        <directory suffix=".php">./Modules/*/config</directory>
         <directory suffix=".php">./Modules/*/database</directory>
         <directory suffix=".php">./Modules/*/resources</directory>
+        <directory suffix=".php">./Modules/*/routes</directory>
         <directory suffix=".php">./Modules/*/tests</directory>
     </exclude>
 </source>
@@ -63,8 +65,10 @@ The file would look like this
             <directory suffix=".php">./Modules</directory>
         </include>
         <exclude>
+            <directory suffix=".php">./Modules/*/config</directory>
             <directory suffix=".php">./Modules/*/database</directory>
             <directory suffix=".php">./Modules/*/resources</directory>
+            <directory suffix=".php">./Modules/*/routes</directory>
             <directory suffix=".php">./Modules/*/tests</directory>
         </exclude>
     </source>
