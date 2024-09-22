@@ -31,52 +31,52 @@ class ModuleEvent
 **Explanation of Each Event**
 
 **BOOT**
-	* Event Trigger: This event is fired when a module is booted.
-	* Use Case: You can use this event to perform additional setup tasks when a module is fully booted into the application lifecycle.
+- Event Trigger: This event is fired when a module is booted.
+- Use Case: You can use this event to perform additional setup tasks when a module is fully booted into the application lifecycle.
 
 **REGISTER**
-	* Event Trigger: This event is fired when a module is registered.
-	* Use Case: Hook into this event to register custom services, routes, or other functionalities when the module is added to the application.
+- Event Trigger: This event is fired when a module is registered.
+- Use Case: Hook into this event to register custom services, routes, or other functionalities when the module is added to the application.
 
 **DISABLING**
-	* Event Trigger: This event is fired just before a module is disabled.
-	* Use Case: Use this event to perform any cleanup or save state before the module is disabled.
+- Event Trigger: This event is fired just before a module is disabled.
+- Use Case: Use this event to perform any cleanup or save state before the module is disabled.
 
 **DISABLED**
-	* Event Trigger: This event is fired when a module is disabled.
-	* Use Case: This can be used to notify other services or take actions after the module has been disabled.
+- Event Trigger: This event is fired when a module is disabled.
+- Use Case: This can be used to notify other services or take actions after the module has been disabled.
 
 **ENABLING**
-	* Event Trigger: This event is fired just before a module is enabled.
-	* Use Case: Hook into this event to initialize or prepare resources before a module becomes active.
+- Event Trigger: This event is fired just before a module is enabled.
+- Use Case: Hook into this event to initialize or prepare resources before a module becomes active.
 
 **ENABLED**
-	* Event Trigger: This event is fired when a module is enabled.
-	* Use Case: Use this event to perform tasks once the module is successfully enabled, such as logging or setting up additional features.
+- Event Trigger: This event is fired when a module is enabled.
+- Use Case: Use this event to perform tasks once the module is successfully enabled, such as logging or setting up additional features.
 
 **CREATING**
-	* Event Trigger: This event is fired before a new module is created.
-	* Use Case: Perform pre-creation tasks such as validation or preparation before a new module is added.
+- Event Trigger: This event is fired before a new module is created.
+- Use Case: Perform pre-creation tasks such as validation or preparation before a new module is added.
 
 **CREATED**
-	* Event Trigger: This event is fired once a new module has been created.
-	* Use Case: You can hook into this event to carry out tasks like setting up default configurations for the newly created module.
+- Event Trigger: This event is fired once a new module has been created.
+- Use Case: You can hook into this event to carry out tasks like setting up default configurations for the newly created module.
 
 **DELETING**
-	* Event Trigger: This event is fired just before a module is deleted.
-	* Use Case: Use this event to handle tasks such as backing up data or removing dependencies before the module is deleted.
+- Event Trigger: This event is fired just before a module is deleted.
+- Use Case: Use this event to handle tasks such as backing up data or removing dependencies before the module is deleted.
 
 **DELETED**
-	* Event Trigger: This event is fired after a module is deleted.
-	* Use Case: Hook into this event to remove related data, clean caches, or perform other post-deletion tasks.
+- Event Trigger: This event is fired after a module is deleted.
+- Use Case: Hook into this event to remove related data, clean caches, or perform other post-deletion tasks.
 
 **USED**
-	* Event Trigger: This event is fired when a module is marked as “used.”
-	* Use Case: Useful for tracking module usage or incrementing statistics related to the use of the module.
+- Event Trigger: This event is fired when a module is marked as “used.”
+- Use Case: Useful for tracking module usage or incrementing statistics related to the use of the module.
 
 **UNUSED**
-	* Event Trigger: This event is fired when a module is marked as “unused.”
-	* Use Case: Perform actions like freeing up resources or reducing logs once the module is no longer actively used.
+- Event Trigger: This event is fired when a module is marked as “unused.”
+- Use Case: Perform actions like freeing up resources or reducing logs once the module is no longer actively used.
 
 
 Here is how you can listen for a module event in your Laravel application:
