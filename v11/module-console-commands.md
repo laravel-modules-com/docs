@@ -13,7 +13,7 @@ php artisan module:make-command CommandName ModuleName
 ie
 
 ```bash
-php artisan moddule:make-command ImportTicketsCommand Tickets
+php artisan module:make-command ImportTicketsCommand Tickets
 ```
 
 This will create an `ImportTicketsCommand` command inside the `Tickets` module located at `Modules/Tickets/Console/ImportTicketsCommand`.
