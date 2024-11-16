@@ -281,3 +281,37 @@ To cache use `php artisan module` and `php artisan optimize:clear` to clear the 
 ## Registering custom namespace
 
 Decide which custom namespaces need to be registered by the package. If one is set to false, the package won't handle its registration.
+
+## Muiltiple config files
+
+From `v11.1.5` the package now supports multiple config files, this allows for a more modular approach to the configuration.
+
+The default config file is `config.php`.
+
+This contains:
+
+```php
+<?php
+
+return [
+    'name' => 'ModuleName',
+];
+```
+
+To use this config file you can use the following for a module called books:
+
+```php
+{{ config('books.name') }}
+```
+
+An example of using multiple config files, event nested folders are supported:
+
+```
+config/
+    admin/admin.php
+    admin.php
+    config.php
+    user.php
+```
+
+Then to use them `config('module.file.name')` for example `config('books.service.name')` to load `config/service.php` from a module called `Books`
