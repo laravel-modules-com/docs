@@ -271,6 +271,46 @@ Generate an event service provider for a specific module.
 php artisan module:make-event-provider EventServiceProvider Blog
 ```
 
+### module:make-exception
+
+Generate an exception class for a specific module.
+
+```bash
+php artisan module:make-exception PostNotFoundException Blog
+```
+
+### module:make-helper
+
+Generate a helper class for a specific module.
+
+```bash
+php artisan module:make-helper StringHelper Blog
+```
+
+### module:make-interface
+
+Generate a interface class for a specific module.
+
+```bash
+php artisan module:make-interface PostRepositoryInterface Blog
+```
+
+### module:make-observer
+
+Generate a observer class for a specific module.
+
+```bash
+php artisan module:make-observer PostObserver Blog
+```
+
+### module:make-repository
+
+Generate a repository class for a specific module.
+
+```bash
+php artisan module:make-repository PostRepository Blog
+```
+
 ### module:make-migration
 
 Generate a migration for specified module.
@@ -279,12 +319,36 @@ Generate a migration for specified module.
 php artisan module:make-migration create_posts_table Blog
 ```
 
+### module:make-scope
+
+Generate a Eloquent query scope class for a specific module.
+
+```bash
+php artisan module:make-scope ActivePostsScope Blog
+```
+
+### module:make-service
+
+Generate a service class for a specific module.
+
+```bash
+php artisan module:make-service PostService Blog
+```
+
 ### module:make-seed
 
 Generate the given seed name for the specified module.
 
 ```bash
 php artisan module:make-seed seed_fake_blog_posts Blog
+```
+
+### module:make-trait
+
+Generate a trait class for a specific module.
+
+```bash
+php artisan module:make-trait Sluggable Blog
 ```
 
 ### module:make-controller
