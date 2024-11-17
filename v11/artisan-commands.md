@@ -10,20 +10,31 @@ __Note all the following commands use "Blog" as example module name, and example
 
 ## Utility commands
 
-### module:make
+### module:clear-compiled
 
-Generate a new module.
+Remove the compiled `bootstrap/cache/modules` file. Which is automatically created when not present. 
+This will refresh the cache contents. 
 
-```bash
-php artisan module:make Blog
+It's recommended to run this command if you've made changes to the `module_statuses.json` file.
+
+```php
+php artisan module:clear-compiled
 ```
 
-### module:make
+### module:composer-update
 
-Generate multiple modules at once.
+Update the composer.json file for the given module.
 
-```bash
-php artisan module:make Blog User Auth
+```php
+php artisan module:composer-update Blog
+```
+
+### module:dump
+
+Run composer dump-autoload for a specific module or all modules.
+
+```php
+php artisan module:dump Blog
 ```
 
 ### module:use
@@ -146,6 +157,14 @@ Enable the given module.
 php artisan module:enable Blog
 ```
 
+### module:delete
+
+Delete the given module.
+
+```bash
+php artisan module:delete Blog
+```
+
 ### module:disable
 
 Disable the given module.
@@ -164,12 +183,92 @@ php artisan module:update Blog
 
 ## Generator commands
 
+### module:make
+
+Generate a new module.
+
+```bash
+php artisan module:make Blog
+```
+
+### module:make
+
+Generate multiple modules at once.
+
+```bash
+php artisan module:make Blog User Auth
+```
+
+### module:make-action
+
+Create a new action class for a specific module.
+
+```bash
+php artisan module:make-action PublishPost Blog
+```
+
+### module:make-cast
+
+Create a new Eloquent cast class for a specific module.
+
+```bash
+php artisan module:make-cast TitleCast Blog
+```
+
+### module:make-channel
+
+Create a new channel class for a specific module.
+
+```bash
+php artisan module:make-channel NotificationChannel Blog
+```
+
+### module:make-class
+
+Create a new class for a specific module.
+
+```bash
+php artisan module:make-class CustomClass Blog
+```
+
 ### module:make-command
 
 Generate the given console command for the specified module.
 
 ```bash
 php artisan module:make-command CreatePostCommand Blog
+```
+
+### module:make-component
+
+Generate the given component for the specified module.
+
+```bash
+php artisan module:make-component Alert Blog
+```
+
+### module:make-component-view
+
+Generate a Blade component view file for a specific module.
+
+```bash
+php artisan module:make-component-view Alert Blog
+```
+
+### module:make-enum
+
+Generate a new Enum class for a specific module.
+
+```bash
+php artisan module:make-enum PostStatus Blog
+```
+
+### module:make-event-provider
+
+Generate an event service provider for a specific module.
+
+```bash
+php artisan module:make-event-provider EventServiceProvider Blog
 ```
 
 ### module:make-migration
@@ -198,7 +297,7 @@ php artisan module:make-controller PostsController Blog
 Optional options:
 
 - `--plain`,`-p` : create a plain controller
-- `--api` : create a resouce controller
+- `--api` : create a resource controller
 
 ### module:make-model
 
