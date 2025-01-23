@@ -61,12 +61,12 @@ List all available modules.
 php artisan module:list
 ```
 
-### module:show-model
+### module:model-show
 
 Provides a convenient overview of all the model's attributes and relations:
 
 ```bash
-php artisan module:show-model Blog
+php artisan module:model-show Blog
 ```
 
 ### module:migrate
