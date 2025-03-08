@@ -41,7 +41,7 @@ php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProv
 
 > from v11.0 autoloading `"Modules\\": "modules/",` is no longer required.
 
-By default the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
+By default, the module classes are not loaded automatically. You can autoload your modules by adding merge-plugin to the extra section:
 
 ```json
 "extra": {
