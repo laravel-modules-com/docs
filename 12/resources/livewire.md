@@ -1,6 +1,6 @@
 ---
 title: Livewire
-order: 9
+order: 0
 ---
 
 ## Livewire components 
@@ -36,7 +36,7 @@ Then render it in a view:
 <livewire:contacts::contact-form />
 ```
 
-### Livewire Module Package
+## Livewire Module Package
 
 Whist this will work, it would be far better if you could generate livewire components for modules, good news, there's a package for that by **Mehediul Hassan Miton** called laravel-modules-livewire. [https://github.com/mhmiton/laravel-modules-livewire](https://github.com/mhmiton/laravel-modules-livewire)
 
@@ -44,7 +44,7 @@ This package automatically registered livewire components, no longer will you ha
 
 Better yet you can generate new Livewire components using a `make-livewire` command.
 
-#### Installation:
+### Installation:
 
 Install through composer:
 
@@ -52,7 +52,7 @@ Install through composer:
 composer require mhmiton/laravel-modules-livewire
 ```
 
-#### Config
+### Config
 
 Publish the package's configuration file:
 
@@ -60,7 +60,7 @@ Publish the package's configuration file:
 php artisan vendor:publish --provider="Mhmiton\LaravelModulesLivewire\LaravelModulesLivewireServiceProvider"
 ```
 
-#### Making Components:
+### Making Components:
 
 **Command Signature:**
 
@@ -128,7 +128,7 @@ VIEW:  Modules/Core/Resources/views/livewire/pages/about.blade.php
 TAG: <livewire:core::pages.about-page />
 ```
 
-#### Rendering Components:
+### Rendering Components:
 
 ```php
 <livewire:{module-lower-name}::component-class-kebab-case />
@@ -140,7 +140,7 @@ TAG: <livewire:core::pages.about-page />
 <livewire:core::pages.about-page />
 ```
 
-#### Custom Module:
+### Custom Module:
 
 **To create components for the custom module, add custom modules in the config file.**
 

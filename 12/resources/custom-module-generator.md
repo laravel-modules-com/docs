@@ -1,12 +1,13 @@
 ---
 title: Custom Module Generator
-order: 10
+order: 1
 ---
 
-The default modules are fine to get started but often you'll have your own structure that you'll use from module to module. It's nice to be able to use your structure as a template for all future modules to be created from.
+The default modules are fine to get started, but often you'll have your own structure that you'll use from module to module. It's nice to be able to use your structure as a template for all future modules to be created from.
 
 > There is an external package for generating Laravel Modules from a template
-https://github.com/dcblogdev/laravel-module-generator
+
+[https://github.com/dcblogdev/laravel-module-generator](https://github.com/dcblogdev/laravel-module-generator)
 
 There's 2 options here. Edit the stub files or create your own base module and custom artisan command.
 

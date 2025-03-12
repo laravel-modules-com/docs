@@ -1,11 +1,11 @@
 ---
-title: Spatie Laravel Permission
-order: 9
+title: Spatie's Laravel Permission
+order: 3
 ---
 
 Spatie provide a powerful roles and permissions package for Laravel. it's a great way to manage complete roles each with their own permissions. 
 
-Consult their docs for complete details https://spatie.be/docs/laravel-permission/v5/
+Consult their docs for complete details [https://spatie.be/docs/laravel-permission](https://spatie.be/docs/laravel-permission)
 
 ## Installation
 
