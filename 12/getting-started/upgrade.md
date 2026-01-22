@@ -24,7 +24,7 @@ replace the commands array with:
 
 ## Composer Merge Plugin
 
-The first time you upgrade to v11 you will be asked whether to enable the merge plugin, press y to allow. It's now required for merging composer files from modules.
+The first time you upgrade to v12 you will be asked whether to enable the merge plugin, press `y` to allow. It's now required for merging composer files from modules.
 
 ```
 Do you trust "wikimedia/composer-merge-plugin" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] 
@@ -52,7 +52,7 @@ php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProv
 
 ## Autoloading
 
-> from v11.0 autoloading `"Modules\\": "modules/",` is no longer required.
+> from v11.0 autoloading `"Modules\\": "modules/",` is no longer required, and should be removed from your composer.json if present.
 
 Please delete the Modules autoloading section:
 
@@ -80,6 +80,27 @@ By default, the module classes are not loaded automatically. You can autoload yo
     }
 },
 ```
+
+**Important**
+
+on the first installation you will be asked:
+
+```bash
+Do you trust "wikimedia/composer-merge-plugin" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?]
+```
+
+Answer `y` to allow the plugin to be executed. Otherwise, you will need to manually enable the following to your composer.json:
+
+```json
+"config": {
+    "allow-plugins": {
+        "wikimedia/composer-merge-plugin": true
+    }
+```
+
+> if `"wikimedia/composer-merge-plugin": false` modules will not be autoloaded.
+
+**Tip: don't forget to run `composer dump-autoload` afterwards**
 
 Modules composer.json files for newly generated modules will contain:
 

@@ -82,7 +82,7 @@ This will store the compiled assets into a `public/build` folder.
 
 ## Module vite.config.js 
 
-to load assets from a module edit `vite.config.js` and replace its contents with:
+to load assets from a module edit its `vite.config.js` and replace its contents with:
 
 > Update the paths as needed.
 ```js
