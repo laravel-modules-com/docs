@@ -1,6 +1,6 @@
 ---
 title: Livewire
-order: 0
+order: 2
 ---
 
 ## Livewire components 
