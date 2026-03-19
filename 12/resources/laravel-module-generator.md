@@ -1,6 +1,6 @@
 ---
-title: Dcblogdev's Module Generator
-order: 2
+title: Module Generator
+order: 3
 ---
 
 Laravel package for generating Laravel Modules from a template.
