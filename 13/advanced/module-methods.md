@@ -3,125 +3,145 @@ title: Module Methods
 order: 3
 ---
 
-Get an entity from a specific module.
+Each module is represented by a `Module` instance. Retrieve one using the facade:
 
 ```php
+use Nwidart\Modules\Facades\Module;
+
 $module = Module::find('blog');
 ```
 
-Get module name.
+> Always check that the module exists before calling instance methods to avoid a `null` error. Use `Module::findOrFail` if you want an exception on a missing module.
+
+## Name Methods
 
 ```php
-$module->getName();
+$module->getName();        // "Blog"
+$module->getLowerName();   // "blog"
+$module->getStudlyName();  // "Blog"
+$module->getKebabName();   // "blog" (or "my-blog" for multi-word names)
+$module->getSnakeName();   // "blog" (or "my_blog" for multi-word names)
+
+// Casting to string returns the StudlyCase name
+(string) $module;          // "Blog"
 ```
 
-Get module name in lowercase.
+## Description and Metadata
 
 ```php
-$module->getLowerName();
+$module->getDescription();   // value of "description" in module.json
+$module->getPriority();      // value of "priority" in module.json (int)
 ```
 
-Get module name in studlycase.
+Read any key from `module.json`:
 
 ```php
-$module->getStudlyName();
+$module->get('alias');          // "blog"
+$module->get('keywords');       // []
+$module->get('missing', 'default');  // returns 'default' if key not found
 ```
 
-Get name in snake case.
+Read any key from the module's `composer.json`:
 
 ```php
-$module->getSnakeName();
+$module->getComposerAttr('name');     // "nwidart/blog"
+$module->getComposerAttr('version');
 ```
 
-Get module description.
+## Path Methods
 
 ```php
-$module->getDescription();
+$module->getPath();              // full path to the module directory
+$module->getAppPath();           // path to the module's app/ subdirectory
+$module->getExtraPath('routes'); // path to module/routes
+$module->getExtraPath('resources/views'); // path to module/resources/views
 ```
 
-Get module priority.
+`module_path()` helper is equivalent:
 
 ```php
-$module->getPriority();
+module_path('Blog', 'resources/views') // same as $module->getExtraPath('resources/views')
 ```
 
-Get a specific data from `module.json` file by given the key.
+## Status Methods
 
 ```php
-$module->get('description');
+$module->isEnabled();       // true if the module is active
+$module->isDisabled();      // true if the module is inactive
+$module->isStatus(true);    // true if enabled
+$module->isStatus(false);   // true if disabled
 ```
 
-Get a specific data from `composer.json` file by given the key.
+Chain from the facade if you are confident the module exists:
 
 ```php
-$module->getComposerAttr('name');
+Module::find('Blog')->isEnabled();
 ```
 
-Get module path.
-
-```php
-$module->getPath();
-```
-
-Get extra path.
-
-```php
-$module->getExtraPath('Assets');
-```
-
-Disable the specified module.
-
-```php
-$module->disable();
-```
-
-Enable the specified module.
+Change status:
 
 ```php
 $module->enable();
+$module->disable();
+$module->setActive(true);   // enable
+$module->setActive(false);  // disable
 ```
 
-Check if enabled:
+## Lifecycle Methods
 
 ```php
-$module->isEnabled();
+$module->register();    // register the module's service providers and aliases
+$module->boot();        // boot the module (fire 'boot' event)
 ```
 
-Check if disabled:
+Fire a module event manually:
 
 ```php
-$module->isDisabled();
+$module->fireEvent('custom-event');
 ```
 
-Check if the status it true or false by passing true or false:
-
-```php
-$module->isStatus(false); //returns true if active false if is not active
-```
-
-You can also do a call in one go:
-
-```php
-Module::find('Posts')->isEnabled();
-```
-
-**Only run the one liner if you've first checked the module exists otherwise you will get an error.**
-
-
-Delete the specified module.
+## Delete a Module
 
 ```php
 $module->delete();
 ```
 
-Set active state for current module.
+## JSON File Access
+
+Access the parsed contents of any JSON file within the module:
 
 ```php
-$module->setActive(false);
+$moduleJson   = $module->json();             // module.json
+$composerJson = $module->json('composer.json');
 ```
 
-Get an array of module requirements. Note: these should be aliases of the module.
+## Practical Examples
+
+### Display Module Information
 
 ```php
-$module->getRequires();
+@foreach (Module::allEnabled() as $module)
+    <div>
+        <strong>{{ $module->getName() }}</strong>
+        <span>{{ $module->getDescription() }}</span>
+        <code>Priority: {{ $module->getPriority() }}</code>
+    </div>
+@endforeach
+```
+
+### Conditionally Disable a Module
+
+```php
+$module = Module::findOrFail('Blog');
+
+if ($someCondition) {
+    $module->disable();
+    logger()->info("Blog module disabled due to condition.");
+}
+```
+
+### Get All Module Paths for IDE Indexing
+
+```php
+$paths = collect(Module::all())->map(fn ($m) => $m->getPath())->values()->all();
 ```

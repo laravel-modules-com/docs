@@ -36,7 +36,7 @@ This class needs to look like this:
 ```php
 <?php
 
-namespace Modules\Blog\App\Providers;
+namespace Modules\Blog\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -57,7 +57,7 @@ This is now like the regular EventServiceProvider in the `app/` namespace. In ou
 ```php
 <?php
 
-namespace Modules\Blog\App\Events;
+namespace Modules\Blog\Events;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

@@ -3,227 +3,198 @@ title: Facade Methods
 order: 1
 ---
 
-Import facade:
+The `Module` facade provides static access to the module repository. Import it at the top of your file:
 
 ```php
 use Nwidart\Modules\Facades\Module;
 ```
 
-Get all modules.
+## Retrieving Modules
+
+### Get All Modules
+
+Returns an array of all modules (enabled and disabled):
 
 ```php
-Module::all();
+$modules = Module::all();
 ```
 
-Get all cached modules.
+### Get All Enabled Modules
 
 ```php
-Module::getCached()
+$activeModules = Module::allEnabled();
 ```
 
-Get ordered modules. The modules will be ordered by the `priority` key in `module.json` file.
+### Get All Disabled Modules
 
 ```php
-Module::getOrdered();
+$inactiveModules = Module::allDisabled();
 ```
 
-Get scanned modules.
+### Get Ordered Modules
+
+Returns modules sorted by the `priority` field in `module.json`. Lower numbers come first:
 
 ```php
-Module::scan();
+$modules = Module::getOrdered();          // ascending (default)
+$modules = Module::getOrdered('desc');    // descending
 ```
 
-Find a specific module.
+### Get Modules as a Collection
 
 ```php
-Module::find('name');
-// OR
-Module::get('name');
+$collection = Module::toCollection();
+$collection = Module::collections(); // enabled modules only
 ```
 
-Find a module, if there is one, return the `Module` instance, otherwise throw `Nwidart\Modules\Exeptions\ModuleNotFoundException`.
+### Filter by Status
+
+Get modules by status (1 = enabled, 0 = disabled):
 
 ```php
-Module::findOrFail('module-name');
+$enabled  = Module::getByStatus(1);
+$disabled = Module::getByStatus(0);
 ```
 
-Get scanned paths.
+### Scan for Modules
+
+Scan the filesystem for modules (re-reads the disk, bypassing any cache):
 
 ```php
-Module::getScanPaths();
+$modules = Module::scan();
 ```
 
-Get all modules as a collection instance.
+## Finding a Module
+
+### Find by Name
+
+Returns the `Module` instance or `null` if not found:
 
 ```php
-Module::toCollection();
+$module = Module::find('blog');
 ```
 
-Get modules by the status. 1 for active and 0 for inactive.
+### Find or Fail
+
+Returns the `Module` instance or throws `Nwidart\Modules\Exceptions\ModuleNotFoundException`:
 
 ```php
-Module::getByStatus(1);
+$module = Module::findOrFail('blog');
 ```
 
-Check the specified module. If it exists, will return `true`, otherwise `false`.
+### Check Existence
 
 ```php
-Module::has('blog');
+if (Module::has('blog')) {
+    // module exists
+}
 ```
 
-Get all enabled modules.
+## Checking Module Status
 
 ```php
-Module::allEnabled();
+Module::isEnabled('Blog');   // bool
+Module::isDisabled('Blog');  // bool
 ```
 
-Check if module is enabled
+## Enabling and Disabling
 
 ```php
-Module::isEnabled('ModuleName');
+Module::enable('Blog');
+Module::disable('Blog');
 ```
 
-Get all disabled modules.
+## Counting Modules
 
 ```php
-Module::allDisabled();
+$total = Module::count();
 ```
 
-Check if module is disabled
+## Path Methods
 
 ```php
-Module::isDisabled('ModuleName');
+Module::getPath();                  // path to the Modules root directory
+Module::getModulePath('Blog');      // path to the Blog module directory
+Module::assetPath('Blog');          // path to the Blog module's public assets
+Module::getAssetsPath();            // path to the modules asset directory
+Module::asset('blog:img/logo.png'); // URL to a module asset
 ```
 
-Enable module
+## CLI Session Helpers
+
+These methods track which module is "in use" for the current CLI session, allowing you to omit the module name on generator commands after running `module:use`:
+
 ```php
-Module::enable('ModuleName');
+Module::setUsed('Blog');
+Module::getUsedNow();   // returns 'Blog'
+Module::getUsedStoragePath(); // path to the .modulesuse session file
 ```
 
-Disable module
+## Installing and Updating
+
+Install a module from a Composer package name:
+
 ```php
-Module::disable('ModuleName');
+Module::install('nwidart/article-module');
 ```
 
-Delete module
+Update a module's Composer dependencies:
+
 ```php
-Module::delete('ModuleName');
+Module::update('Blog');
 ```
 
-Update dependencies for the specified module.
+## Delete a Module
+
+Permanently deletes the module directory:
 
 ```php
-Module::update('hello');
+Module::delete('Blog');
 ```
 
-Install the specified module by given module name.
+## Configuration
+
+Read values from the laravel-modules package configuration:
 
 ```php
-Module::install('nwidart/hello');
+Module::config('composer.vendor');  // reads config/modules.php
 ```
 
-Get count of all modules.
+## Macros
+
+Extend the module repository with custom methods:
 
 ```php
-Module::count();
-```
-
-Get module root path.
-
-```php
-Module::getPath();
-```
-
-Get the module's `app` path. If the module doesn't have an `app` folder, the result is the same as `getPath` method.
-
-```php
-Module::getAppPath();
-```
-
-Register the modules.
-
-```php
-Module::register();
-```
-
-Boot all available modules.
-
-```php
-Module::boot();
-```
-
-Get all enabled modules as collection instance.
-
-```php
-Module::collections();
-```
-
-Get module path from the specified module.
-
-```php
-Module::getModulePath('name');
-```
-
-Get assets path from the specified module.
-
-```php
-Module::assetPath('name');
-```
-
-Get config value from this package.
-
-```php
-Module::config('composer.vendor');
-```
-
-Get used storage path.
-
-```php
-Module::getUsedStoragePath();
-```
-
-Get used module for cli session.
-
-```php
-Module::getUsedNow();
-// OR
-Module::getUsed();
-```
-
-Set used module for cli session.
-
-```php
-Module::setUsed('name');
-```
-
-Get modules's assets path.
-
-```php
-Module::getAssetsPath();
-```
-
-Get asset url from specific module.
-
-```php
-Module::asset('blog:img/logo.img');
-```
-
-Add a macro to the module repository.
-
-```php
-Module::macro('hello', function() {
-    echo "I'm a macro";
+Module::macro('enabledCount', function () {
+    return count($this->allEnabled());
 });
+
+// Call it
+$count = Module::enabledCount();
 ```
 
-Call a macro from the module repository.
+## Practical Examples
+
+### Render a Navigation Menu from Enabled Modules
 
 ```php
-Module::hello();
+@foreach (Module::allEnabled() as $module)
+    <a href="{{ route($module->getLowerName() . '.index') }}">
+        {{ $module->getName() }}
+    </a>
+@endforeach
 ```
 
-Get all required modules of a module
+### Check a Module Before Using Its Features
 
 ```php
-Module::getRequirements('module name');
+if (Module::isEnabled('Shop')) {
+    $cartCount = app(\Modules\Shop\Services\CartService::class)->count();
+}
+```
+
+### Get Scan Paths
+
+```php
+$paths = Module::getScanPaths(); // directories scanned for modules
 ```
